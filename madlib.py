@@ -1,6 +1,5 @@
 # Print a welcome message to the user, explaining the Madlib process and command line interactions (DONE)
-# Read a template Madlib file (url below), and parse that file into usable parts.
-# https://codefellows.github.io/code-401-python-guide/curriculum/class-03/lab/assets/make_me_a_video_game_template.txt
+# Read a template Madlib file and parse that file into usable parts.
 # Prompt the user to submit a series of words to fit each of the required components of the Madlib template.
 # With the collected user inputs, populate the template such that each provided input is placed into the correct
 # position within the template.
@@ -31,3 +30,33 @@ print('''
 ** your madlib!                    **
 _____________________________________
 ''')
+
+
+def read_template(path_to_file):
+    with open(path_to_file) as reader:
+        return reader.read()
+
+
+def parse_template(template_string):
+    # "It was a {Adjective} and {Adjective} {Noun}."
+    capturing = False
+    captured_list = []
+    stripped_string = "" # "It was a  and  ."
+    captured_string = "" # Adjective, Adjective, Noun
+    for k in template_string:
+        if capturing:
+            if k == "}":
+                captured_list.append(captured_string)
+                stripped_string += k
+                captured_string = ""
+                capturing = False
+            else:
+                captured_string += k
+        else:
+            stripped_string += k
+            if k == "{":
+                capturing = True
+    return stripped_string, tuple(captured_list)
+
+
+
