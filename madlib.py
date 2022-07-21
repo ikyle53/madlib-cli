@@ -41,8 +41,8 @@ def parse_template(template_string):
     # "It was a {Adjective} and {Adjective} {Noun}."
     capturing = False
     captured_list = []
-    stripped_string = "" # "It was a  and  ."
-    captured_string = "" # Adjective, Adjective, Noun
+    stripped_string = ""  # "It was a  and  ."
+    captured_string = ""  # Adjective, Adjective, Noun
     for k in template_string:
         if capturing:
             if k == "}":
@@ -58,5 +58,32 @@ def parse_template(template_string):
                 capturing = True
     return stripped_string, tuple(captured_list)
 
+# Create and test a merge function that takes in a “bare” template and a list of user entered language parts, and
+# returns a string with the language parts inserted into the template.
 
 
+def merge(bare_template, user_inputs):
+    iterating = False
+    captured_string = ""
+    my_list = list(user_inputs)
+    print(my_list)
+
+    for k in bare_template:
+        if iterating:
+            if k == "}":
+                bare_template.__add__(my_list[0])
+                iterating = False
+        else:
+            captured_string += k
+            if k == "{":
+                iterating = True
+    return print(captured_string)
+
+
+merge("It was a {} and {} {}.", ("dark", "stormy", "night"))
+
+# "It was a {} and {} {}.", ("dark", "stormy", "night")
+# adj1_input = input()
+# adj2_input = input()
+# noun_input = input()
+# input_list = list(adj1_input, adj2_input, noun_input)
